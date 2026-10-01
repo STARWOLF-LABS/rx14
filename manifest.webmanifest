@@ -1,0 +1,10 @@
+{
+  "name": "STARWOLF RX-14",
+  "short_name": "RX-14",
+  "description": "STARWOLF Labs world-band field receiver",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050301",
+  "theme_color": "#090704",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+}
