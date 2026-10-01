@@ -1,26 +1,26 @@
-# STARWOLF LABS // RX-14 v0.4 TRANSFER PROTOCOL
+# STARWOLF LABS // RX-14 v0.41 HOTFIX
 
-Field-tested mobile architecture.
+Hotfix for v0.4.
 
-## Active signal banks
-- NEON N01 — SomaFM DEF CON Radio
-- NEON N02 — SomaFM Suburbs of Goa
-- NEON N03 — SomaFM Mission Control
-- TEZETA C01 — Ethio Jazz Radio
-- WORLD D01 — Radio Garden
+v0.4 contained one orphaned JavaScript statement from the previous external-source handler.
+That syntax error prevented the RX-14 boot sequence from running, leaving only the CRT background visible.
 
-## Offline / reserved
-- GHOST — signal bank offline while a reliable mobile vintage-radio source is selected
-- QUANTUM — signal bank offline while a reliable mobile ambient/new-age source is selected
+v0.41 removes the orphaned statement. Both `index.html` inline JavaScript and
+`stations.js` were syntax-checked before packaging.
 
-## Transfer behavior
-ACQUIRE SIGNAL no longer attempts internal audio playback. It performs the terminal sequence:
+## Signal banks
+- NEON: DEF CON Radio / Suburbs of Goa / Mission Control
+- GHOST: offline / reserved
+- TEZETA: Ethio Jazz Radio
+- WORLD: Radio Garden
+- QUANTUM: offline / reserved
 
+## Transfer sequence
 HANDSHAKE...
 ROUTING AUDIO CARRIER...
 SIGNAL ACQUIRED
 STAND BY FOR TRANSFER
 
-Then it transfers the current browser window to the selected station.
-
-Upload/replace `index.html`, `stations.js`, `manifest.webmanifest`, and `README.md` in the existing `rx14` repository. `icon.svg` can remain untouched.
+Replace the four files in the existing GitHub repository:
+`index.html`, `stations.js`, `manifest.webmanifest`, `README.md`.
+`icon.svg` stays untouched.
