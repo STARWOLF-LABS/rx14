@@ -34,13 +34,13 @@ canvas{width:100%;height:100%;display:block}.sweep{position:absolute;top:0;botto
 <body>
 <div id="crt"><div id="boot"></div><div id="message"></div>
 <div id="radio">
-<div class="top"><div><div class="brand">STARWOLF LABS // RX-14</div><div class="sub">WORLD-BAND FIELD RECEIVER // v0.31</div></div><div class="status">NEW MANILA<br>UNIT 01<br><span id="clock">--:--:--</span></div></div>
+<div class="top"><div><div class="brand">STARWOLF LABS // RX-14</div><div class="sub">WORLD-BAND FIELD RECEIVER // v0.4</div></div><div class="status">NEW MANILA<br>UNIT 01<br><span id="clock">--:--:--</span></div></div>
 <div class="bandbar" id="bands"></div>
 <div class="scope"><canvas id="spectrum"></canvas><div class="sweep"></div></div>
 <div class="readout"><div class="memory" id="memory"></div><div class="location" id="location"></div><div class="station" id="station"></div><div class="signal"><span class="dot"></span><span id="sig"></span></div></div>
 <canvas class="water" id="water"></canvas>
 <div class="telemetry"><span id="genre"></span><span id="range"></span></div>
-<div class="controls"><button id="listen">ACQUIRE SIGNAL</button><div class="tune"><button id="prev">◀</button><button id="next">▶</button></div><button id="scan">SCAN BANK</button></div><button id="source" style="width:100%;margin-top:6px;padding:7px;font-size:7px">OPEN SOURCE // EXTERNAL</button>
+<div class="controls"><button id="listen">ACQUIRE SIGNAL</button><div class="tune"><button id="prev">◀</button><button id="next">▶</button></div><button id="scan">SCAN BANK</button></div>
 <div class="footer"><span>RF FRONT END // HYBRID</span><span>PHOS // AMBER</span><span>SWL-1983</span></div>
 <audio id="audio" playsinline></audio>
 </div></div>
@@ -51,24 +51,38 @@ let band="NEON",idx=0,playing=false; const $=id=>document.getElementById(id), au
 labels.forEach(b=>{let x=document.createElement("button");x.textContent=b;x.onclick=()=>selectBand(b);$("bands").appendChild(x)});
 function stop(){audio.pause();audio.removeAttribute("src");audio.load();playing=false;$("listen").textContent="ACQUIRE SIGNAL"}
 function selectBand(b){stop();band=b;idx=0;document.querySelectorAll(".bandbar button").forEach((x,i)=>x.classList.toggle("active",labels[i]===b));$("crt").classList.toggle("ghostPulse",b==="GHOST");render();flash(b==="GHOST"?"GHOST BAND // ARCHIVAL CARRIER":b+" BAND // MEMORY ONLINE")}
-function render(){let s=BANKS[band][idx];$("memory").textContent=`MEMORY ${prefix[band]}${String(idx+1).padStart(2,"0")} // ${band}`;$("location").textContent=s.loc;$("station").textContent=s.name;$("genre").textContent=s.genre;$("sig").textContent=band==="GHOST"?"AGED CARRIER // SIGNAL UNSTABLE":"CARRIER LOCKED // PRESET READY";$("range").textContent=s.stream?"DIRECT AUDIO LINK":"EXTERNAL TRANSMISSION"}
+function render(){let s=BANKS[band][idx];$("memory").textContent=`MEMORY ${prefix[band]}${String(idx+1).padStart(2,"0")} // ${band}`;$("location").textContent=s.loc;$("station").textContent=s.name;$("genre").textContent=s.genre;$("sig").textContent=s.offline?"NO CARRIER // SEARCHING ARCHIVES":(band==="GHOST"?"AGED CARRIER // SIGNAL UNSTABLE":"CARRIER LOCKED // TRANSFER READY");$("range").textContent=s.offline?"NO CARRIER":"EXTERNAL TRANSFER"}
 function flash(t){$("message").innerHTML=t+"<br><br>▓▓▓▓▓░░<br>ACQUIRING CARRIER...";$("message").style.display="block";setTimeout(()=>$("message").style.display="none",850)}
 function step(n){stop();idx=(idx+n+BANKS[band].length)%BANKS[band].length;render();flash("TUNING MEMORY")}
 $("prev").onclick=()=>step(-1);$("next").onclick=()=>step(1);
 $("scan").onclick=()=>{stop();flash("SCANNING "+band+" BANK");setTimeout(()=>{idx=(idx+1)%BANKS[band].length;render()},650)};
-$("listen").onclick=async()=>{let s=BANKS[band][idx];if(playing){stop();$("sig").textContent="CARRIER LOCKED // PRESET READY";return}
- if(s.stream){flash("DIRECT SIGNAL ACQUISITION");audio.src=s.stream;audio.load();try{await audio.play();playing=true;$("listen").textContent="TERMINATE SIGNAL";$("sig").textContent="● LIVE AUDIO // SIGNAL ACQUIRED"}catch(e){playing=false;$("listen").textContent="ACQUIRE SIGNAL";$("sig").textContent="SIGNAL ACQUISITION FAILED // USE OPEN SOURCE"}}
- else{$("sig").textContent="EXTERNAL CARRIER // USE OPEN SOURCE"}
+$("listen").onclick=()=>{let s=BANKS[band][idx];
+ if(s.offline||!s.url){
+   $("sig").textContent="NO CARRIER // SEARCHING ARCHIVES";
+   transferFlash(["SIGNAL BANK OFFLINE","NO TRANSFER AVAILABLE"]);
+   return;
+ }
+ transferFlash(["HANDSHAKE...","ROUTING AUDIO CARRIER...","SIGNAL ACQUIRED","STAND BY FOR TRANSFER"],()=>{window.location.href=s.url});
 };
-$("source").onclick=()=>{let s=BANKS[band][idx];flash(band==="WORLD"?"OPENING PLANETARY TUNER":"OPENING EXTERNAL TRANSMISSION");setTimeout(()=>window.location.href=s.url,420)};
-audio.addEventListener("error",()=>{playing=false;$("listen").textContent="ACQUIRE SIGNAL";$("sig").textContent="SIGNAL LOST // RETRY"});
+function transferFlash(lines,done){
+  let box=$("message"),i=0;
+  box.style.display="block";
+  function show(){
+    box.innerHTML=lines.slice(0,i+1).join("<br><br>");
+    i++;
+    if(i<lines.length){setTimeout(show,430)}
+    else{setTimeout(()=>{box.style.display="none";if(done)done()},650)}
+  }
+  show();
+}
+flash(band==="WORLD"?"OPENING PLANETARY TUNER":"OPENING EXTERNAL TRANSMISSION");setTimeout(()=>window.location.href=s.url,420)};
 setInterval(()=>$("clock").textContent=new Date().toLocaleTimeString([],{hour12:false}),1000);
 
 const sp=$("spectrum"),sx=sp.getContext("2d"),wa=$("water"),wx=wa.getContext("2d");let phase=0;
 function resize(){[sp,wa].forEach(c=>{let r=c.getBoundingClientRect();c.width=Math.max(1,r.width*devicePixelRatio);c.height=Math.max(1,r.height*devicePixelRatio)})}addEventListener("resize",resize);
 function draw(){let w=sp.width,h=sp.height;sx.clearRect(0,0,w,h);sx.strokeStyle="#ffb43b";sx.lineWidth=1.3*devicePixelRatio;sx.shadowColor="#ff9a24";sx.shadowBlur=band==="GHOST"?10:6;sx.beginPath();for(let x=0;x<w;x+=3*devicePixelRatio){let jitter=band==="GHOST"?.06:.025,energy=playing?.08:0;let base=.72+jitter*Math.sin(x*.025+phase)+jitter*Math.random()-energy*Math.abs(Math.sin(phase*3+x*.01));let strength=band==="NEON"?.5:band==="GHOST"?.34:band==="TEZETA"?.42:band==="QUANTUM"?.22:.38;let p1=strength*Math.exp(-Math.pow((x-w*.31)/(w*.025),2)),p2=(strength+.08)*Math.exp(-Math.pow((x-w*.62)/(w*.02),2)),p3=strength*.55*Math.exp(-Math.pow((x-w*.81)/(w*.04),2));let y=h*Math.max(.1,base-p1-p2-p3);x===0?sx.moveTo(x,y):sx.lineTo(x,y)}sx.stroke();phase+=playing?.075:.04;requestAnimationFrame(draw)}
 function waterfall(){let w=wa.width,h=wa.height;wx.drawImage(wa,0,0,w,h,0,1*devicePixelRatio,w,h);wx.fillStyle="#070401";wx.fillRect(0,0,w,2*devicePixelRatio);for(let x=0;x<w;x+=2*devicePixelRatio){let a=.04+Math.random()*(band==="GHOST"?.2:.1)+(playing?.08:0);[.31,.62,.81].forEach(p=>a+=(band==="GHOST"?.34:.55)*Math.exp(-Math.pow((x/w-p)/.027,2)));wx.fillStyle=`rgba(255,170,45,${Math.min(.85,a)})`;wx.fillRect(x,0,2*devicePixelRatio,2*devicePixelRatio)}setTimeout(waterfall,band==="GHOST"?105:70)}
-const bootLines=["STARWOLF LABORATORIES","MOBILE SIGNAL DIVISION","","RX-14 WORLD-BAND RECEIVER // v0.31","ROM CHECK..............OK","DISPLAY................OK","AUDIO BUS..............OK","MEMORY BANK............OK","ARCHIVE LINK...........OK","","LOCATION: NEW MANILA // SECTOR 03","","RESTORING SIGNAL MEMORIES...","NEON...................ONLINE","GHOST..................ONLINE","TEZETA..................ONLINE","WORLD...................ONLINE","QUANTUM.................ONLINE","","> RECEIVER READY"];let bi=0;
+const bootLines=["STARWOLF LABORATORIES","MOBILE SIGNAL DIVISION","","RX-14 WORLD-BAND RECEIVER // v0.4","ROM CHECK..............OK","DISPLAY................OK","AUDIO BUS..............OK","MEMORY BANK............OK","ARCHIVE LINK...........OK","","LOCATION: NEW MANILA // SECTOR 03","","RESTORING SIGNAL MEMORIES...","NEON...................ONLINE","GHOST..................ONLINE","TEZETA..................ONLINE","WORLD...................ONLINE","QUANTUM.................ONLINE","","> RECEIVER READY"];let bi=0;
 function bootNext(){if(bi<bootLines.length){$("boot").innerHTML+=bootLines[bi++]+"\n";setTimeout(bootNext,80+Math.random()*90)}else setTimeout(()=>{$("boot").style.display="none";$("radio").style.display="flex";resize();selectBand("NEON")},450)}
 $("boot").innerHTML="▮\n";setTimeout(()=>{$("boot").innerHTML="";bootNext()},300);resize();draw();waterfall();
 </script></body></html>
