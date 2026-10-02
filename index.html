@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#090704">
 <link rel="manifest" href="manifest.webmanifest">
-<title>STARWOLF RX-14 // v0.8</title>
+<title>STARWOLF RX-14 // v0.9</title>
 <style>
 :root{--a:#ffb43b;--a2:#ffd27a;--dim:#9d6722;--line:rgba(255,180,59,.28)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -25,39 +25,39 @@ canvas{width:100%;height:100%;display:block}.sweep{position:absolute;top:0;botto
 .readout{text-align:center}.memory{font-size:9px;letter-spacing:2px;color:var(--dim)}.location{font-size:clamp(22px,7vw,36px);font-weight:bold;letter-spacing:1px;color:var(--a2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.station{font-size:10px;letter-spacing:1.2px;margin-top:1px}.signal{font-size:9px;letter-spacing:1.5px;margin-top:4px}.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--a);box-shadow:0 0 9px var(--a);margin-right:6px}
 .water{height:13vh;min-height:65px;border:1px solid var(--line);background:#050301}
 .telemetry{display:flex;justify-content:space-between;font-size:7px;letter-spacing:1px;color:var(--dim)}
-.controls{display:grid;grid-template-columns:1.15fr 1.25fr 1fr;gap:6px;margin-top:auto}button{appearance:none;border:1px solid rgba(255,180,59,.46);border-radius:2px;background:#130c05;color:var(--a);font:700 9px "Courier New",monospace;letter-spacing:.7px;padding:10px 4px;text-shadow:0 0 5px rgba(255,180,59,.65)}button:active{background:#2b1907;transform:translateY(1px)}.tune{display:flex;gap:5px}.tune button{flex:1;font-size:17px;padding:7px}
-.footer{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:5px;font-size:7px;color:var(--dim)}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:auto}button{appearance:none;border:1px solid rgba(255,180,59,.46);border-radius:2px;background:#130c05;color:var(--a);font:700 9px "Courier New",monospace;letter-spacing:.7px;padding:10px 4px;text-shadow:0 0 5px rgba(255,180,59,.65)}button:active{background:#2b1907;transform:translateY(1px)}.tune{display:flex;gap:5px}.tune button{flex:1;font-size:17px;padding:7px}
+.footer{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:5px;font-size:7px;letter-spacing:.35px;color:var(--dim)}
 #message{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);border:1px solid var(--line);background:rgba(6,3,1,.95);padding:12px 16px;font-size:9px;letter-spacing:1.5px;z-index:15;display:none;text-align:center;min-width:72%}
 .ghostPulse{animation:ghostPulse 5.2s infinite}@keyframes ghostPulse{0%,47%,49%,78%,80%,100%{opacity:1}48%{opacity:.78}79%{opacity:.9}}
 @media(max-height:650px){.scope{height:17vh}.water{height:10vh}.bandbar button{min-height:38px;padding:5px 2px;font-size:8px}.location{font-size:24px}}
 
-/* v0.7 phone-first field controls */
+/* v0.9 field-console controls */
 .sub{font-size:10px;letter-spacing:1.35px;font-weight:700;color:var(--a2);opacity:.95}
 .hero-tuner{display:grid;grid-template-columns:1fr 112px 1fr;align-items:center;justify-items:center;gap:10px;flex:1;min-height:142px;margin:4px 0 6px}
 .tuning-knob{width:104px;height:74px;border-radius:7px;border:2px solid #6d451c;border-top-color:#b17b39;border-left-color:#9b692f;padding:0;background:linear-gradient(145deg,#5a3516 0%,#2b1709 42%,#130a04 100%);box-shadow:0 7px 0 #080402,0 9px 13px rgba(0,0,0,.72),inset 0 1px 0 rgba(255,218,158,.18),inset 0 -8px 15px rgba(0,0,0,.38);font-size:30px;color:var(--a2)}
 .tuning-knob span{display:block;transform:translateY(-1px);text-shadow:0 0 8px rgba(255,180,59,.72)}
 .tuning-knob:active{transform:translateY(4px);box-shadow:0 3px 0 #080402,0 5px 8px rgba(0,0,0,.65)}.tuning-knob:disabled{opacity:.72;transform:none;cursor:wait}
-.knob-label{min-width:104px;border:1px solid var(--line);background:#080502;padding:9px 7px;text-align:center;font-size:9px;font-weight:700;line-height:1.35;letter-spacing:1.5px;color:var(--a2);box-shadow:inset 0 0 12px rgba(255,180,59,.055);text-shadow:0 0 7px rgba(255,180,59,.5)}
-.hero-tuner.live .tuning-knob{border-color:#b8782d;box-shadow:0 7px 0 #080402,0 9px 13px rgba(0,0,0,.72),inset 0 0 22px rgba(255,180,59,.16),0 0 16px rgba(255,145,20,.14)}.hero-spacer{width:104px}
-.controls #listen{position:relative;font-size:8px;letter-spacing:.55px;color:var(--dim);padding-left:19px}.status-led{position:absolute;left:8px;top:50%;width:7px;height:7px;border-radius:50%;transform:translateY(-50%);background:#ff9d22;box-shadow:0 0 5px rgba(255,157,34,.65),0 0 11px rgba(255,157,34,.28);animation:statusBlink 2.8s ease-in-out infinite}@keyframes statusBlink{0%,100%{opacity:.28}50%{opacity:1}}
-@media(max-height:720px){.hero-tuner{min-height:104px}.tuning-knob{width:92px;height:60px;font-size:25px}.knob-label{min-width:94px;padding:7px 5px;font-size:8px}.hero-spacer{width:94px}}
+.knob-label{width:100%;max-width:122px;min-height:48px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:#080502;padding:8px 5px;text-align:center;font-size:8px;font-weight:700;line-height:1.3;letter-spacing:1px;color:var(--a2);box-shadow:inset 0 0 12px rgba(255,180,59,.055);text-shadow:0 0 7px rgba(255,180,59,.5)}.status-display{animation:liveText 2.4s ease-in-out infinite}@keyframes liveText{0%,100%{opacity:.42;text-shadow:0 0 3px rgba(255,180,59,.25)}50%{opacity:1;text-shadow:0 0 10px rgba(255,180,59,.85)}}
+.hero-tuner.live .tuning-knob{border-color:#b8782d;box-shadow:0 7px 0 #080402,0 9px 13px rgba(0,0,0,.72),inset 0 0 22px rgba(255,180,59,.16),0 0 16px rgba(255,145,20,.14)}
+.controls #listen{position:relative;font-size:10px;letter-spacing:.7px;color:var(--a);padding-left:22px}.status-led{position:absolute;left:8px;top:50%;width:7px;height:7px;border-radius:50%;transform:translateY(-50%);background:#ff9d22;box-shadow:0 0 5px rgba(255,157,34,.65),0 0 11px rgba(255,157,34,.28);animation:statusBlink 2.8s ease-in-out infinite}@keyframes statusBlink{0%,100%{opacity:.28}50%{opacity:1}}
+@media(max-height:720px){.hero-tuner{min-height:104px}.tuning-knob{width:92px;height:60px;font-size:25px}.knob-label{min-height:42px;padding:6px 4px;font-size:7px}}
 </style></head>
 <body>
 <div id="crt"><div id="boot"></div><div id="message"></div>
 <div id="radio">
-<div class="top"><div><div class="brand">STARWOLF LABS // RX-14</div><div class="sub">WORLD-BAND FIELD RECEIVER // v0.8</div></div><div class="status">NEW MANILA<br>UNIT 01<br><span id="clock">--:--:--</span></div></div>
+<div class="top"><div><div class="brand">STARWOLF LABS // RX-14</div><div class="sub">WORLD-BAND FIELD RECEIVER // v0.9</div></div><div class="status">NEW MANILA<br>UNIT 01<br><span id="clock">--:--:--</span></div></div>
 <div class="bandbar" id="bands"></div>
 <div class="scope"><canvas id="spectrum"></canvas><div class="sweep"></div></div>
 <div class="readout"><div class="memory" id="memory"></div><div class="location" id="location"></div><div class="station" id="station"></div><div class="signal"><span class="dot"></span><span id="sig"></span></div></div>
 <canvas class="water" id="water"></canvas>
 <div class="telemetry"><span id="genre"></span><span id="range"></span></div>
 <div class="hero-tuner">
-<div id="heroLabel" class="knob-label">TUNE IN<br>READY</div>
+<div id="instructionDisplay" class="knob-label">TUNE IN</div>
 <button id="heroListen" class="tuning-knob" aria-label="Tune in"><span id="heroIcon">▶</span></button>
-<div class="hero-spacer" aria-hidden="true"></div>
+<div id="statusDisplay" class="knob-label status-display">READY</div>
 </div>
-<div class="controls"><button id="listen"><span class="status-led" aria-hidden="true"></span>SIGNAL STATUS</button><div class="tune"><button id="prev">◀</button><button id="next">▶</button></div><button id="scan">SCAN BANK</button></div>
-<div class="footer"><span>RF FRONT END // HYBRID</span><span>PHOS // AMBER</span><span>SWL-1983</span></div>
+<div class="controls"><button id="listen"><span class="status-led" aria-hidden="true"></span>SIGNAL STATUS</button><button id="scan">CHANGE STATION&nbsp;&nbsp;»»</button></div>
+<div class="footer"><span>3.333 GHz</span><span>BUILD : ASTRA // L0V3</span><span>DIFFERENT WORLDS // SAME SKY</span></div>
 <audio id="audio" playsinline></audio>
 </div></div>
 <script src="stations.js"></script>
@@ -67,21 +67,21 @@ let band="GHOST 1",idx=0,playing=false,tuning=false; const $=id=>document.getEle
 labels.forEach(b=>{let x=document.createElement("button");x.innerHTML=displayLabels[b]||b;x.onclick=()=>selectBand(b);$("bands").appendChild(x)});
 function stop(){audio.pause();audio.removeAttribute("src");audio.load();playing=false;tuning=false;syncHero()}
 function selectBand(b){stop();band=b;idx=0;document.querySelectorAll(".bandbar button").forEach((x,i)=>x.classList.toggle("active",labels[i]===b));$("crt").classList.toggle("ghostPulse",b.startsWith("GHOST"));render();flash(b.startsWith("GHOST")?"GHOST BAND // ARCHIVAL CARRIER":b+" BAND // MEMORY ONLINE")}
-function render(){let s=BANKS[band][idx];$("memory").textContent=`MEMORY ${prefix[band]}${String(idx+1).padStart(2,"0")} // ${band}`;$("location").textContent=s.loc;$("station").textContent=s.name;$("genre").textContent=s.genre;$("sig").textContent=s.offline?"NO CARRIER // SEARCHING ARCHIVES":(band.startsWith("GHOST")?"AGED CARRIER // SIGNAL UNSTABLE":"CARRIER LOCKED // TRANSFER READY");$("range").textContent=s.offline?"NO CARRIER":"EXTERNAL TRANSFER"}
+function render(){let s=BANKS[band][idx];$("memory").textContent=`MEMORY ${prefix[band]}${String(idx+1).padStart(2,"0")} // ${band}`;$("location").textContent=s.loc;$("station").textContent=s.name;$("genre").textContent=s.genre;$("sig").textContent=s.offline?"NO CARRIER // SEARCHING ARCHIVES":(band.startsWith("GHOST")?"AGED CARRIER // SIGNAL UNSTABLE":"CARRIER LOCKED // TRANSFER READY");$("range").textContent=s.offline?"NO CARRIER":"3.333 GHz // RX LOCK"}
 function flash(t){$("message").innerHTML=t+"<br><br>▓▓▓▓▓░░<br>ACQUIRING CARRIER...";$("message").style.display="block";setTimeout(()=>$("message").style.display="none",850)}
-function step(n){stop();idx=(idx+n+BANKS[band].length)%BANKS[band].length;render();flash("TUNING MEMORY")}
-$("prev").onclick=()=>step(-1);$("next").onclick=()=>step(1);
-$("scan").onclick=()=>{stop();flash("SCANNING "+band+" BANK");setTimeout(()=>{idx=(idx+1)%BANKS[band].length;render()},650)};
+function changeStation(){let next=(labels.indexOf(band)+1)%labels.length;flash("SCANNING FREQUENCY BANK");setTimeout(()=>selectBand(labels[next]),420)}
+$("scan").onclick=()=>changeStation();
 const handleTune=async()=>{let s=BANKS[band][idx];if(tuning)return;if(s.offline){stop();$("sig").textContent="NO SIGNAL // SEARCHING...";flash("NO CARRIER // SCANNING VOID");return}if(playing){stop();$("sig").textContent="DIRECT CARRIER // READY";return}if(s.mode==="direct"&&s.stream){tuning=true;syncHero();$("sig").textContent="SCANNING BANDWIDTH // LOCKING CARRIER...";audio.src=s.stream;audio.preload="none";try{await audio.play();playing=true;tuning=false;syncHero();$("sig").textContent="● SIGNAL ACQUIRED // LIVE AUDIO"}catch(e){playing=false;tuning=false;syncHero();$("sig").textContent="CARRIER LOCK FAILED // RETUNE";flash("CARRIER LOCK FAILED // RETUNE")}}else{$("sig").textContent="NO DIRECT CARRIER // RETUNE"}};
 function transferFlash(lines,done){let box=$("message"),i=0;box.style.display="block";function show(){box.innerHTML=lines.slice(0,i+1).join("<br><br>");i++;if(i<lines.length)setTimeout(show,420);else setTimeout(()=>{box.style.display="none";if(done)done()},600)}show();}
 function syncHero(){
- const hero=document.querySelector(".hero-tuner"), icon=$("heroIcon"), label=$("heroLabel"), btn=$("heroListen");
+ const hero=document.querySelector(".hero-tuner"), icon=$("heroIcon"), instruction=$("instructionDisplay"), status=$("statusDisplay"), btn=$("heroListen");
  if(!hero)return;
  hero.classList.toggle("live",playing);
  btn.disabled=tuning;
  icon.textContent=tuning?"⌁":playing?"■":"▶";
- label.innerHTML=tuning?"SCANNING<br>BANDWIDTH":playing?"END SIGNAL<br>LIVE CARRIER":"TUNE IN<br>READY";
- btn.setAttribute("aria-label",tuning?"Scanning bandwidth":playing?"End signal":"Tune in");
+ instruction.textContent=tuning?"SEARCHING...":playing?"END SIGNAL":"TUNE IN";
+ status.textContent=tuning?"SCANNING BANDWIDTH":playing?"LIVE CARRIER":"READY";
+ btn.setAttribute("aria-label",tuning?"Searching":playing?"End signal":"Tune in");
 }
 $("heroListen").onclick=()=>handleTune();
 $("listen").onclick=()=>{let s=BANKS[band][idx];$("sig").textContent=playing?"● SIGNAL ACQUIRED // LIVE AUDIO":(s.mode==="direct"?"DIRECT CARRIER // READY":"TRANSFER CARRIER // READY")};
@@ -91,7 +91,7 @@ const sp=$("spectrum"),sx=sp.getContext("2d"),wa=$("water"),wx=wa.getContext("2d
 function resize(){[sp,wa].forEach(c=>{let r=c.getBoundingClientRect();c.width=Math.max(1,r.width*devicePixelRatio);c.height=Math.max(1,r.height*devicePixelRatio)})}addEventListener("resize",resize);
 function draw(){let w=sp.width,h=sp.height;sx.clearRect(0,0,w,h);sx.strokeStyle="#ffb43b";sx.lineWidth=1.3*devicePixelRatio;sx.shadowColor="#ff9a24";sx.shadowBlur=band.startsWith("GHOST")?10:6;sx.beginPath();for(let x=0;x<w;x+=3*devicePixelRatio){let jitter=band.startsWith("GHOST")?.06:.025,energy=playing?.08:0;let base=.72+jitter*Math.sin(x*.025+phase)+jitter*Math.random()-energy*Math.abs(Math.sin(phase*3+x*.01));let strength=band==="NEON"?.5:band.startsWith("GHOST")?.34:band==="TEZETA"?.42:band==="QUANTUM"?.22:.38;let p1=strength*Math.exp(-Math.pow((x-w*.31)/(w*.025),2)),p2=(strength+.08)*Math.exp(-Math.pow((x-w*.62)/(w*.02),2)),p3=strength*.55*Math.exp(-Math.pow((x-w*.81)/(w*.04),2));let y=h*Math.max(.1,base-p1-p2-p3);x===0?sx.moveTo(x,y):sx.lineTo(x,y)}sx.stroke();phase+=playing?.075:.04;requestAnimationFrame(draw)}
 function waterfall(){let w=wa.width,h=wa.height;wx.drawImage(wa,0,0,w,h,0,1*devicePixelRatio,w,h);wx.fillStyle="#070401";wx.fillRect(0,0,w,2*devicePixelRatio);for(let x=0;x<w;x+=2*devicePixelRatio){let a=.04+Math.random()*(band.startsWith("GHOST")?.2:.1)+(playing?.08:0);[.31,.62,.81].forEach(p=>a+=(band.startsWith("GHOST")?.34:.55)*Math.exp(-Math.pow((x/w-p)/.027,2)));wx.fillStyle=`rgba(255,170,45,${Math.min(.85,a)})`;wx.fillRect(x,0,2*devicePixelRatio,2*devicePixelRatio)}setTimeout(waterfall,band.startsWith("GHOST")?105:70)}
-const bootLines=["STARWOLF LABORATORIES","MOBILE SIGNAL DIVISION","","RX-14 WORLD-BAND RECEIVER // v0.8","ROM CHECK..............OK","DISPLAY................OK","AUDIO BUS..............OK","MEMORY BANK............OK","ARCHIVE LINK...........OK","","LOCATION: NEW MANILA // SECTOR 03","","RESTORING SIGNAL MEMORIES...","GHOST 1.................ONLINE","GHOST 2.................ONLINE","SYNTH 1.................ONLINE","SYNTH 2.................ONLINE","HEART BEAT 1............ONLINE","","> RECEIVER READY"];let bi=0;
+const bootLines=["STARWOLF LABORATORIES","MOBILE SIGNAL DIVISION","","RX-14 WORLD-BAND RECEIVER // v0.9","ROM CHECK..............OK","DISPLAY................OK","AUDIO BUS..............OK","MEMORY BANK............OK","ARCHIVE LINK...........OK","","LOCATION: NEW MANILA // SECTOR 03","","RESTORING SIGNAL MEMORIES...","GHOST 1.................ONLINE","GHOST 2.................ONLINE","SYNTH 1.................ONLINE","SYNTH 2.................ONLINE","HEART BEAT 1............ONLINE","","> RECEIVER READY"];let bi=0;
 function bootNext(){if(bi<bootLines.length){$("boot").innerHTML+=bootLines[bi++]+"\n";setTimeout(bootNext,80+Math.random()*90)}else setTimeout(()=>{$("boot").style.display="none";$("radio").style.display="flex";resize();selectBand("GHOST 1")},450)}
 $("boot").innerHTML="▮\n";setTimeout(()=>{$("boot").innerHTML="";bootNext()},300);resize();draw();waterfall();
 </script></body></html>
