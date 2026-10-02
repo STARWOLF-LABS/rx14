@@ -1,16 +1,19 @@
-# STARWOLF LABS // RX-14 v0.51 STARWOLF BADGE
+# STARWOLF LABS // RX-14 v0.52 WORDMARK
 
-Adds a low-bit, single-color STARWOLF LABS manufacturer badge to the open lower field
-of the RX-14 player UI.
+Capybara Prime has been honorably retired.
 
-The badge is:
-- inline SVG, so no additional image asset is required
-- rendered in the existing amber phosphor color
-- deliberately angular / low-resolution in character
-- dimmed so it reads like a ROM/hardware manufacturer mark rather than a web logo
-- responsive for the iPhone portrait layout
+The lower display field now carries a simple phosphor terminal wordmark:
 
-All v0.5 native/transfer radio behavior is otherwise preserved.
+STARWOLF : RX-14
+RADIO SIGNAL SYSTEM
+
+The mark is centered, large, dim amber, and intentionally reads like a ROM-resident
+manufacturer/system identifier rather than a decorative logo.
+
+Also restores the public control language to:
+▶ TUNE IN
+
+All v0.5 native GHOST playback and transfer behavior is preserved.
 
 Replace `index.html`, `stations.js`, `manifest.webmanifest`, and `README.md`.
 Keep `icon.svg`.
