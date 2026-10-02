@@ -11,7 +11,7 @@ const BANKS = {
 "SYNTH 2":[
 {loc:"BASS RELAY // UK",name:"DNBUK RADIO",genre:"DRUM & BASS / JUNGLE / NEUROFUNK",stream:"https://radio.drumandbassuk.com/listen/drum_and_bass_uk_radio/radio.mp3",url:"https://drumandbassuk.com/radio",mode:"direct"}
 ],
-AMBIENT:[
-{loc:"DEEP SPACE // UNKNOWN",name:"UNASSIGNED FREQUENCY",genre:"AMBIENT / SIGNAL SEARCH",offline:true,mode:"offline"}
+"HEART BEAT 1":[
+{loc:"GLOBAL HOUSE // ORION",name:"ORION GLOBAL HOUSE RADIO",genre:"ORGANIC / DEEP / AFRO / PROGRESSIVE HOUSE",stream:"https://global.citrus3.com:8370/stream",url:"https://www.orionglobalhouse.com/",mode:"direct"}
 ]
 };
