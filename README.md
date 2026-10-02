@@ -1,19 +1,15 @@
-# STARWOLF LABS // RX-14 v0.52 WORDMARK
+# STARWOLF LABS // RX-14 v0.6 FIELD CONTROL
 
-Capybara Prime has been honorably retired.
+Phone-first control revision.
 
-The lower display field now carries a simple phosphor terminal wordmark:
+- Startup/default bank: GHOST
+- Band order: GHOST / TEZETA / WORLD / NEON / QUANTUM
+- Large circular primary playback control in the lower field
+- `▶ TUNE IN` changes to `■ END SIGNAL` during native playback
+- WORLD-BAND FIELD RECEIVER subtitle enlarged and brightened for phone legibility
+- Old lower-left playback button becomes SIGNAL STATUS
+- Known-good v0.5 GHOST native playback architecture preserved
+- JavaScript syntax validated before packaging
 
-STARWOLF : RX-14
-RADIO SIGNAL SYSTEM
-
-The mark is centered, large, dim amber, and intentionally reads like a ROM-resident
-manufacturer/system identifier rather than a decorative logo.
-
-Also restores the public control language to:
-▶ TUNE IN
-
-All v0.5 native GHOST playback and transfer behavior is preserved.
-
-Replace `index.html`, `stations.js`, `manifest.webmanifest`, and `README.md`.
-Keep `icon.svg`.
+Replace index.html, stations.js, manifest.webmanifest, and README.md.
+Keep icon.svg.
