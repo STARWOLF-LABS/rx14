@@ -9,7 +9,7 @@ const BANKS = {
 {loc:"NIGHT RELAY // GLOBAL",name:"NIGHTRIDE FM",genre:"SYNTHWAVE / RETROWAVE / NIGHT DRIVE",stream:"https://stream.nightride.fm/nightride.mp3",url:"https://nightride.fm/",mode:"direct"}
 ],
 "SYNTH 2":[
-{loc:"JUNGLE RELAY // GLOBAL",name:"JUNGLETRAIN",genre:"JUNGLE / DRUM & BASS / DEEP",stream:"https://jungletrain.net/128kbps.m3u",url:"https://jungletrain.net/",mode:"direct"}
+{loc:"BASS RELAY // GLOBAL",name:"DNBRADIO",genre:"DRUM & BASS / JUNGLE / DEEP",stream:"https://dnbradio.com/dnbradio_main.mp3",url:"https://dnbradio.com/",mode:"direct"}
 ],
 AMBIENT:[
 {loc:"DEEP SPACE // UNKNOWN",name:"UNASSIGNED FREQUENCY",genre:"AMBIENT / SIGNAL SEARCH",offline:true,mode:"offline"}
