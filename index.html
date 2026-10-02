@@ -69,7 +69,31 @@ function stop(){audio.pause();audio.removeAttribute("src");audio.load();playing=
 function selectBand(b){stop();band=b;idx=0;document.querySelectorAll(".bandbar button").forEach((x,i)=>x.classList.toggle("active",labels[i]===b));$("crt").classList.toggle("ghostPulse",b.startsWith("GHOST"));render();flash(b.startsWith("GHOST")?"GHOST BAND // ARCHIVAL CARRIER":b+" BAND // MEMORY ONLINE")}
 function render(){let s=BANKS[band][idx];$("memory").textContent=`MEMORY ${prefix[band]}${String(idx+1).padStart(2,"0")} // ${band}`;$("location").textContent=s.loc;$("station").textContent=s.name;$("genre").textContent=s.genre;$("sig").textContent=s.offline?"NO CARRIER // SEARCHING ARCHIVES":(band.startsWith("GHOST")?"AGED CARRIER // SIGNAL UNSTABLE":"CARRIER LOCKED // TRANSFER READY");$("range").textContent=s.offline?"NO CARRIER":"3.333 GHz // RX LOCK"}
 function flash(t){$("message").innerHTML=t+"<br><br>▓▓▓▓▓░░<br>ACQUIRING CARRIER...";$("message").style.display="block";setTimeout(()=>$("message").style.display="none",850)}
-function changeStation(){let next=(labels.indexOf(band)+1)%labels.length;flash("SCANNING FREQUENCY BANK");setTimeout(()=>selectBand(labels[next]),420)}
+async function changeStation(){
+ if(tuning)return;
+ let next=(labels.indexOf(band)+1)%labels.length;
+ flash("SCANNING FREQUENCY BANK");
+ // CHANGE STATION is itself the user gesture, so retune and play immediately.
+ stop();
+ selectBand(labels[next]);
+ let s=BANKS[band][idx];
+ if(s.offline||s.mode!=="direct"||!s.stream){
+   $("sig").textContent="NO DIRECT CARRIER // RETUNE";
+   return;
+ }
+ tuning=true;syncHero();
+ $("sig").textContent="SCANNING BANDWIDTH // LOCKING CARRIER...";
+ audio.src=s.stream;audio.preload="none";
+ try{
+   await audio.play();
+   playing=true;tuning=false;syncHero();
+   $("sig").textContent="● SIGNAL ACQUIRED // LIVE AUDIO";
+ }catch(e){
+   playing=false;tuning=false;syncHero();
+   $("sig").textContent="CARRIER LOCK FAILED // PRESS PLAY";
+   flash("CARRIER LOCK FAILED // PRESS PLAY");
+ }
+}
 $("scan").onclick=()=>changeStation();
 const handleTune=async()=>{let s=BANKS[band][idx];if(tuning)return;if(s.offline){stop();$("sig").textContent="NO SIGNAL // SEARCHING...";flash("NO CARRIER // SCANNING VOID");return}if(playing){stop();$("sig").textContent="DIRECT CARRIER // READY";return}if(s.mode==="direct"&&s.stream){tuning=true;syncHero();$("sig").textContent="SCANNING BANDWIDTH // LOCKING CARRIER...";audio.src=s.stream;audio.preload="none";try{await audio.play();playing=true;tuning=false;syncHero();$("sig").textContent="● SIGNAL ACQUIRED // LIVE AUDIO"}catch(e){playing=false;tuning=false;syncHero();$("sig").textContent="CARRIER LOCK FAILED // RETUNE";flash("CARRIER LOCK FAILED // RETUNE")}}else{$("sig").textContent="NO DIRECT CARRIER // RETUNE"}};
 function transferFlash(lines,done){let box=$("message"),i=0;box.style.display="block";function show(){box.innerHTML=lines.slice(0,i+1).join("<br><br>");i++;if(i<lines.length)setTimeout(show,420);else setTimeout(()=>{box.style.display="none";if(done)done()},600)}show();}
